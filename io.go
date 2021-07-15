@@ -104,7 +104,7 @@ type RespGetCorpToken struct {
 // CorpToken 企业凭证
 type CorpToken struct {
 	AccessToken string `json:"access_token"`
-	ExpiresIn   int    `json:"expires_in"`
+	ExpiresIn   int64    `json:"expires_in"`
 }
 
 /**
