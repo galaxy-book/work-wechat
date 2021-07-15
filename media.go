@@ -37,12 +37,15 @@ func NewTemporaryUpload(accessToken string, filePath, fileType string) Action {
  * @return error
  */
 func (m *media) TemporaryUpload(filePath, fileType string) (*RespTemporaryUpload, error) {
-
-	cropAccessToken := m.workWechat.NewAccessToken().GetCorpAccessTokenByCache()
+	corpAccessTokenResp, err := m.workWechat.GetCorpAccessToken()
+	if err != nil{
+		return nil, err
+	}
+	corpAccessToken := corpAccessTokenResp.AccessToken
 
 	opt := &RespTemporaryUpload{}
-	err := m.workWechat.Scan(context.Background(), NewTemporaryUpload(
-		cropAccessToken,
+	err = m.workWechat.Scan(context.Background(), NewTemporaryUpload(
+		corpAccessToken,
 		filePath,
 		fileType,
 	), opt)
@@ -75,11 +78,15 @@ func NewImgUpload(accessToken string, filePath string) Action {
  */
 func (m *media) ImgUpload(filePath string) (*RespImgUpload, error) {
 
-	cropAccessToken := m.workWechat.NewAccessToken().GetCorpAccessTokenByCache()
+	corpAccessTokenResp, err := m.workWechat.GetCorpAccessToken()
+	if err != nil{
+		return nil, err
+	}
+	corpAccessToken := corpAccessTokenResp.AccessToken
 
 	opt := &RespImgUpload{}
-	err := m.workWechat.Scan(context.Background(), NewImgUpload(
-		cropAccessToken,
+	err = m.workWechat.Scan(context.Background(), NewImgUpload(
+		corpAccessToken,
 		filePath,
 	), opt)
 	if err != nil {
@@ -109,8 +116,12 @@ func NewMediaGet(accessToken string, mediaId string) Action {
  * @return error
  */
 func (m *media) MediaGet(mediaId string) (*RespMediaGet, error) {
-	cropAccessToken := m.workWechat.NewAccessToken().GetCorpAccessTokenByCache()
-	res, err := m.workWechat.Do(context.Background(), NewMediaGet(cropAccessToken,mediaId))
+	corpAccessTokenResp, err := m.workWechat.GetCorpAccessToken()
+	if err != nil{
+		return nil, err
+	}
+	corpAccessToken := corpAccessTokenResp.AccessToken
+	res, err := m.workWechat.Do(context.Background(), NewMediaGet(corpAccessToken,mediaId))
 	if err != nil {
 		return nil, err
 	}

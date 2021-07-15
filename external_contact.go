@@ -36,10 +36,14 @@ func NewGetExternalContactList(accessToken string, userId string) Action {
  */
 func (e *externalContact) GetExternalContactList(userId string) (*ExternalContactList, error) {
 
-	cropAccessToken := e.workWechat.NewAccessToken().GetCorpAccessTokenByCache()
+	corpAccessTokenResp, err := e.workWechat.GetCorpAccessToken()
+	if err != nil{
+		return nil, err
+	}
+	corpAccessToken := corpAccessTokenResp.AccessToken
 
 	opt := &ExternalContactList{}
-	err := e.workWechat.Scan(context.Background(), NewGetExternalContactList(cropAccessToken, userId), opt)
+	err = e.workWechat.Scan(context.Background(), NewGetExternalContactList(corpAccessToken, userId), opt)
 	if err != nil {
 		return nil, err
 	}
@@ -68,10 +72,14 @@ func NewGetExternalContactUserInfo(accessToken string, externalUserId string, cu
  */
 func (e *externalContact) GetExternalContactUserInfo(externalUserId string, cursor string) (*ExternalContactUserInfo, error) {
 
-	cropAccessToken := e.workWechat.NewAccessToken().GetCorpAccessTokenByCache()
+	corpAccessTokenResp, err := e.workWechat.GetCorpAccessToken()
+	if err != nil{
+		return nil, err
+	}
+	corpAccessToken := corpAccessTokenResp.AccessToken
 
 	opt := &ExternalContactUserInfo{}
-	err := e.workWechat.Scan(context.Background(), NewGetExternalContactUserInfo(cropAccessToken, externalUserId, cursor), opt)
+	err = e.workWechat.Scan(context.Background(), NewGetExternalContactUserInfo(corpAccessToken, externalUserId, cursor), opt)
 	if err != nil {
 		return nil, err
 	}
@@ -114,12 +122,15 @@ func NewSendWelcomeMsg(corpAccessToken string, welcomeCode string, text string, 
  * @return error
  */
 func (e *externalContact) SendWelcomeMsg(welcomeCode string, text string, attachments []Attachments) (*RespSendWelcomeMsg, error) {
-
-	cropAccessToken := e.workWechat.NewAccessToken().GetCorpAccessTokenByCache()
+	corpAccessTokenResp, err := e.workWechat.GetCorpAccessToken()
+	if err != nil{
+		return nil, err
+	}
+	corpAccessToken := corpAccessTokenResp.AccessToken
 
 	opt := &RespSendWelcomeMsg{}
-	err := e.workWechat.Scan(context.Background(), NewSendWelcomeMsg(
-		cropAccessToken,
+	err = e.workWechat.Scan(context.Background(), NewSendWelcomeMsg(
+		corpAccessToken,
 		welcomeCode,
 		text,
 		attachments,

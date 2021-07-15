@@ -73,11 +73,14 @@ func NewSetSessionInfo(suitAccessToken string, preAuthCode string, info SessionI
  * @return error
  */
 func (a *auth) SetSessionInfo(preAuthCode string, info SessionInfo) (*RespSetSessionInfo, error) {
-
-	suiteAccessToken := a.workWechat.NewAccessToken().GetSuiteAccessTokenByCache()
+	suiteAccessTokenResp, err := a.workWechat.GetSuiteAccessToken()
+	if err != nil{
+		return nil, err
+	}
+	suiteAccessToken := suiteAccessTokenResp.SuiteAccessToken
 
 	opt := &RespSetSessionInfo{}
-	err := a.workWechat.Scan(context.Background(), NewSetSessionInfo(suiteAccessToken, preAuthCode, info), opt)
+	err = a.workWechat.Scan(context.Background(), NewSetSessionInfo(suiteAccessToken, preAuthCode, info), opt)
 	if err != nil {
 		return nil, err
 	}
@@ -97,10 +100,14 @@ func (a *auth) SetSessionInfo(preAuthCode string, info SessionInfo) (*RespSetSes
  */
 func (a *auth) GetPermanentCode(authCode string) (*RespGetPermanentCode, error) {
 
-	suiteAccessToken := a.workWechat.NewAccessToken().GetSuiteAccessTokenByCache()
+	suiteAccessTokenResp, err := a.workWechat.GetSuiteAccessToken()
+	if err != nil{
+		return nil, err
+	}
+	suiteAccessToken := suiteAccessTokenResp.SuiteAccessToken
 
 	opt := &RespGetPermanentCode{}
-	err := a.workWechat.Scan(context.Background(), NewGetPermanentCode(suiteAccessToken, authCode), opt)
+	err = a.workWechat.Scan(context.Background(), NewGetPermanentCode(suiteAccessToken, authCode), opt)
 	if err != nil {
 		return nil, err
 	}
@@ -119,10 +126,14 @@ func (a *auth) GetPermanentCode(authCode string) (*RespGetPermanentCode, error) 
  */
 func (a *auth) GetPreAuthCode() (*RespGetPreAuthCode, error) {
 
-	suiteAccessToken := a.workWechat.NewAccessToken().GetSuiteAccessTokenByCache()
+	suiteAccessTokenResp, err := a.workWechat.GetSuiteAccessToken()
+	if err != nil{
+		return nil, err
+	}
+	suiteAccessToken := suiteAccessTokenResp.SuiteAccessToken
 
 	opt := &RespGetPreAuthCode{}
-	err := a.workWechat.Scan(context.Background(), NewGetPreAuthCode(suiteAccessToken), opt)
+	err = a.workWechat.Scan(context.Background(), NewGetPreAuthCode(suiteAccessToken), opt)
 	if err != nil {
 		return nil, err
 	}
