@@ -9,10 +9,10 @@ import (
 
 // 素材管理
 type media struct {
-	workWechat workWechat
+	workWechat WorkWechat
 }
 
-func (w workWechat) NewMedia() *media {
+func (w WorkWechat) NewMedia() *media {
 	return &media{
 		w,
 	}
@@ -38,7 +38,7 @@ func NewTemporaryUpload(accessToken string, filePath, fileType string) Action {
  */
 func (m *media) TemporaryUpload(filePath, fileType string) (*RespTemporaryUpload, error) {
 	corpAccessTokenResp, err := m.workWechat.GetCorpAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	corpAccessToken := corpAccessTokenResp.AccessToken
@@ -57,7 +57,6 @@ func (m *media) TemporaryUpload(filePath, fileType string) (*RespTemporaryUpload
 	}
 	return opt, nil
 }
-
 
 // 上传图片素材
 func NewImgUpload(accessToken string, filePath string) Action {
@@ -79,7 +78,7 @@ func NewImgUpload(accessToken string, filePath string) Action {
 func (m *media) ImgUpload(filePath string) (*RespImgUpload, error) {
 
 	corpAccessTokenResp, err := m.workWechat.GetCorpAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	corpAccessToken := corpAccessTokenResp.AccessToken
@@ -106,7 +105,6 @@ func NewMediaGet(accessToken string, mediaId string) Action {
 	)
 }
 
-
 /**
  * @Description: 获取素材
  * @author:ljj
@@ -117,11 +115,11 @@ func NewMediaGet(accessToken string, mediaId string) Action {
  */
 func (m *media) MediaGet(mediaId string) (*RespMediaGet, error) {
 	corpAccessTokenResp, err := m.workWechat.GetCorpAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	corpAccessToken := corpAccessTokenResp.AccessToken
-	res, err := m.workWechat.Do(context.Background(), NewMediaGet(corpAccessToken,mediaId))
+	res, err := m.workWechat.Do(context.Background(), NewMediaGet(corpAccessToken, mediaId))
 	if err != nil {
 		return nil, err
 	}
@@ -138,4 +136,3 @@ func (m *media) MediaGet(mediaId string) (*RespMediaGet, error) {
 
 	return opt, nil
 }
-

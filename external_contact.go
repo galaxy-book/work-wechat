@@ -9,10 +9,10 @@ import (
 
 // 外部联系人相关
 type externalContact struct {
-	workWechat workWechat
+	workWechat WorkWechat
 }
 
-func (w workWechat) NewExternalContact() *externalContact {
+func (w WorkWechat) NewExternalContact() *externalContact {
 	return &externalContact{
 		w,
 	}
@@ -37,7 +37,7 @@ func NewGetExternalContactList(accessToken string, userId string) Action {
 func (e *externalContact) GetExternalContactList(userId string) (*ExternalContactList, error) {
 
 	corpAccessTokenResp, err := e.workWechat.GetCorpAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	corpAccessToken := corpAccessTokenResp.AccessToken
@@ -73,7 +73,7 @@ func NewGetExternalContactUserInfo(accessToken string, externalUserId string, cu
 func (e *externalContact) GetExternalContactUserInfo(externalUserId string, cursor string) (*ExternalContactUserInfo, error) {
 
 	corpAccessTokenResp, err := e.workWechat.GetCorpAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	corpAccessToken := corpAccessTokenResp.AccessToken
@@ -123,7 +123,7 @@ func NewSendWelcomeMsg(corpAccessToken string, welcomeCode string, text string, 
  */
 func (e *externalContact) SendWelcomeMsg(welcomeCode string, text string, attachments []Attachments) (*RespSendWelcomeMsg, error) {
 	corpAccessTokenResp, err := e.workWechat.GetCorpAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	corpAccessToken := corpAccessTokenResp.AccessToken

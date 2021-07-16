@@ -6,9 +6,9 @@ import (
 	"fmt"
 )
 
-type Options func(w *workWechat) *workWechat
+type Options func(w *WorkWechat) *WorkWechat
 
-type workWechat struct {
+type WorkWechat struct {
 	// 服务商的corpid
 	ProviderCorpID string
 
@@ -31,7 +31,7 @@ type workWechat struct {
 	PermanentCode string
 }
 
-var defaultWorkWechat = workWechat{
+var defaultWorkWechat = WorkWechat{
 	ProviderCorpID: "",
 	ProviderSecret: "",
 	SuiteID:        "",
@@ -42,7 +42,7 @@ var defaultWorkWechat = workWechat{
 }
 
 func SetProviderCorpID(ProviderCorpID string) Options {
-	return func(w *workWechat) *workWechat {
+	return func(w *WorkWechat) *WorkWechat {
 		w.ProviderCorpID = ProviderCorpID
 		return w
 	}
@@ -54,7 +54,7 @@ func SetProviderSecret() {
 }
 
 // todo 选项设计模式
-func NewWeWork(opts ...Options) *workWechat {
+func NewWeWork(opts ...Options) *WorkWechat {
 	defaultWorkInfo := defaultWorkWechat
 	for _, v := range opts {
 		v(&defaultWorkInfo)
@@ -62,8 +62,8 @@ func NewWeWork(opts ...Options) *workWechat {
 	return &defaultWorkInfo
 }
 
-func NewWorkWechat(config Config) *workWechat {
-	return &workWechat{
+func NewWorkWechat(config Config) *WorkWechat {
+	return &WorkWechat{
 		ProviderCorpID: config.ProviderCorpID,
 		ProviderSecret: config.ProviderSecret,
 		SuiteID:        config.SuiteID,
@@ -75,40 +75,37 @@ func NewWorkWechat(config Config) *workWechat {
 }
 
 // 返回原包数据  直接进行链式炒作
-func (w workWechat) Do(ctx context.Context, weWorkAction Action) ([]byte, error) {
+func (w WorkWechat) Do(ctx context.Context, weWorkAction Action) ([]byte, error) {
 	//todo  context包超时 释放原则
 	return weWorkAction.DoRequest(ctx)
 }
 
 //scan 方法 绑定到指定的结构体
-func (w workWechat) Scan(ctx context.Context, weWorkAction Action, pointer interface{}) error {
-	requestRes , err := weWorkAction.DoRequest(ctx)
-	if err != nil{
+func (w WorkWechat) Scan(ctx context.Context, weWorkAction Action, pointer interface{}) error {
+	requestRes, err := weWorkAction.DoRequest(ctx)
+	if err != nil {
 		return err
 	}
 	fmt.Println(string(requestRes))
 	err = json.Unmarshal(requestRes, &pointer)
 
-
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	return nil
 }
 
 //Uploader 方法 上传专用
-func (w workWechat) Uploader(ctx context.Context, weWorkAction Action, pointer interface{}) error {
-	requestRes , err := weWorkAction.DoRequest(ctx)
-	if err != nil{
+func (w WorkWechat) Uploader(ctx context.Context, weWorkAction Action, pointer interface{}) error {
+	requestRes, err := weWorkAction.DoRequest(ctx)
+	if err != nil {
 		return err
 	}
 	fmt.Println(string(requestRes))
 	err = json.Unmarshal(requestRes, &pointer)
 
-
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	return nil
 }
-

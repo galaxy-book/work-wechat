@@ -8,11 +8,11 @@ import (
 )
 
 type auth struct {
-	workWechat      workWechat
+	workWechat      WorkWechat
 	SuitAccessToken string
 }
 
-func (w workWechat) NewAuth() *auth {
+func (w WorkWechat) NewAuth() *auth {
 	return &auth{
 		workWechat: w,
 	}
@@ -74,7 +74,7 @@ func NewSetSessionInfo(suitAccessToken string, preAuthCode string, info SessionI
  */
 func (a *auth) SetSessionInfo(preAuthCode string, info SessionInfo) (*RespSetSessionInfo, error) {
 	suiteAccessTokenResp, err := a.workWechat.GetSuiteAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	suiteAccessToken := suiteAccessTokenResp.SuiteAccessToken
@@ -101,7 +101,7 @@ func (a *auth) SetSessionInfo(preAuthCode string, info SessionInfo) (*RespSetSes
 func (a *auth) GetPermanentCode(authCode string) (*RespGetPermanentCode, error) {
 
 	suiteAccessTokenResp, err := a.workWechat.GetSuiteAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	suiteAccessToken := suiteAccessTokenResp.SuiteAccessToken
@@ -127,7 +127,7 @@ func (a *auth) GetPermanentCode(authCode string) (*RespGetPermanentCode, error) 
 func (a *auth) GetPreAuthCode() (*RespGetPreAuthCode, error) {
 
 	suiteAccessTokenResp, err := a.workWechat.GetSuiteAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	suiteAccessToken := suiteAccessTokenResp.SuiteAccessToken

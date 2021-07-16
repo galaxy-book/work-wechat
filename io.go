@@ -6,7 +6,7 @@ import (
 )
 
 type respCommon struct {
-	ErrCode int64  `json:"errcode"`
+	ErrCode int    `json:"errcode"`
 	ErrMsg  string `json:"errmsg"`
 }
 
@@ -104,7 +104,7 @@ type RespGetCorpToken struct {
 // CorpToken 企业凭证
 type CorpToken struct {
 	AccessToken string `json:"access_token"`
-	ExpiresIn   int64    `json:"expires_in"`
+	ExpiresIn   int64  `json:"expires_in"`
 }
 
 /**
@@ -172,19 +172,18 @@ type PermanentCode struct {
 	RegisterCodeInfo RegisterCodeInfo `json:"register_code_info"`
 }
 
-
 /**
 设置授权配置
 */
 // reqSetSessionInfo 获取永久授权码校验
 type reqSetSessionInfo struct {
-	PreAuthCode string `json:"pre_auth_code"`
+	PreAuthCode string      `json:"pre_auth_code"`
 	SessionInfo SessionInfo `json:"session_info"`
 }
 
 type SessionInfo struct {
-	AppId []string `json:"appid"`
-	AuthType int `json:"auth_type"`
+	AppId    []string `json:"appid"`
+	AuthType int      `json:"auth_type"`
 }
 
 var _ bodyer = reqSetSessionInfo{}

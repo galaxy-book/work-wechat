@@ -62,6 +62,24 @@ func GetCorpAccessTokenAction(suitAccessToken string, corpId string, permanentCo
 	)
 }
 
+func GetCorpAuthInfoAction(suitAccessToken string, corpId string, permanentCode string) Action {
+	reqUrl := BaseWeWorkUrl + fmt.Sprintf("/cgi-bin/service/get_auth_info?suite_access_token=%s", suitAccessToken)
+	return NewWeWordApi(reqUrl,
+		WitchMethod(HttpPost),
+		WitchBody(func() (bytes []byte, e error) {
+			var req = reqGetCorpToken{
+				AuthCorpID:    corpId,
+				PermanentCode: permanentCode,
+			}
+			jsonInfo, err := json.Marshal(req)
+			if err != nil {
+				return nil, err
+			}
+			return jsonInfo, nil
+		}),
+	)
+}
+
 /**
  * @Description:
  * @author:21
@@ -69,7 +87,7 @@ func GetCorpAccessTokenAction(suitAccessToken string, corpId string, permanentCo
  * @return *RespGetProviderToken
  * @return error
  */
-func (w *workWechat) GetProviderAccessToken() (*RespGetProviderToken, error) {
+func (w *WorkWechat) GetProviderAccessToken() (*RespGetProviderToken, error) {
 	if len(w.ProviderCorpID) < 1 {
 		return nil, errors.New("设置ProviderCorpID出错")
 	}
@@ -101,7 +119,7 @@ func (w *workWechat) GetProviderAccessToken() (*RespGetProviderToken, error) {
  * @return *RespGetSuiteToken
  * @return error
  */
-func (w *workWechat) GetSuiteAccessToken() (*RespGetSuiteToken, error) {
+func (w *WorkWechat) GetSuiteAccessToken() (*RespGetSuiteToken, error) {
 	if len(w.SuiteID) < 1 {
 		return nil, errors.New("设置SuiteID出错")
 	}
@@ -124,7 +142,6 @@ func (w *workWechat) GetSuiteAccessToken() (*RespGetSuiteToken, error) {
 	return resp, nil
 }
 
-
 /**
  * @Description:获取授权企业应用access_token
  * @author:ljj
@@ -132,7 +149,7 @@ func (w *workWechat) GetSuiteAccessToken() (*RespGetSuiteToken, error) {
  * @return *RespGetCorpToken
  * @return error
  */
-func (w *workWechat) GetCorpAccessToken() (*RespGetCorpToken, error) {
+func (w *WorkWechat) GetCorpAccessToken() (*RespGetCorpToken, error) {
 	if len(w.CorpId) < 1 {
 		return nil, errors.New("设置CorpId出错")
 	}
@@ -140,7 +157,7 @@ func (w *workWechat) GetCorpAccessToken() (*RespGetCorpToken, error) {
 		return nil, errors.New("设置PermanentCode出错")
 	}
 	suiteAccessTokenResp, err := w.GetSuiteAccessToken()
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	var resp = &RespGetCorpToken{}
