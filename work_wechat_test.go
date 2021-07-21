@@ -41,25 +41,6 @@ func TestNewWorkWechat(t *testing.T) {
 	//}
 }
 
-func TestGetProviderAccessTokenAction(t *testing.T) {
-	//GetProviderAccessTokenAction
-	testConfig := Config{
-		ProviderCorpID: "",
-		ProviderSecret: "",
-		SuiteID:        "",
-		SuiteSecret:    "",
-		SuiteTicket:    "",
-		CorpId:         "",
-		PermanentCode:  "",
-	}
-	classInfo := NewWorkWechat(testConfig)
-	res , err := classInfo.NewAccessToken().GetProviderAccessToken()
-	if err != nil{
-		return
-	}
-	fmt.Println(res)
-}
-
 func TestGetSuitAccessTokenAction(t *testing.T) {
 	testConfig := Config{
 		ProviderCorpID: "",
@@ -73,7 +54,7 @@ func TestGetSuitAccessTokenAction(t *testing.T) {
 	classInfo := NewWorkWechat(testConfig)
 	var resp = reqGetSuiteToken{}
 	err := classInfo.Scan(context.Background(),
-		GetSuitAccessTokenAction(testConfig.SuiteID,testConfig.SuiteSecret, testConfig.SuiteTicket),
+		GetSuitAccessTokenAction(testConfig.SuiteID, testConfig.SuiteSecret, testConfig.SuiteTicket),
 		resp,
 	)
 	fmt.Println(err)
@@ -93,14 +74,11 @@ func TestGetCorpAccessTokenAction(t *testing.T) {
 	var req = reqGetCorpToken{}
 	suitAccessToken := "1111"
 
-
 	classInfo := NewWorkWechat(weworkChatConfig)
 	err := classInfo.Scan(context.Background(),
-		GetCorpAccessTokenAction(suitAccessToken,weworkChatConfig.CorpId, weworkChatConfig.PermanentCode),
+		GetCorpAccessTokenAction(suitAccessToken, weworkChatConfig.CorpId, weworkChatConfig.PermanentCode),
 		req)
 	t.Log(err)
 	t.Log(req)
 
 }
-
-
