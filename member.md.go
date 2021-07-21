@@ -64,3 +64,8 @@ type UserInfoDetails struct {
 		} `json:"external_attr"`
 	} `json:"external_profile"`
 }
+
+type ConvertToUserIdResp struct {
+	respCommon
+	UserId string `json:"userid"`
+}
