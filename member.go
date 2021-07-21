@@ -7,6 +7,7 @@
 package work
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -25,7 +26,11 @@ func ConvertToUserId(accessToken, openId string) Action {
 	return NewWeWordApi(reqUrl,
 		WitchMethod(HttpPost),
 		WitchBody(func() (bytes []byte, e error) {
-			return []byte(openId), nil
+			body := map[string]interface{}{
+				"openid": openId,
+			}
+			bytes, _ = json.Marshal(body)
+			return bytes, nil
 		}),
 	)
 }
