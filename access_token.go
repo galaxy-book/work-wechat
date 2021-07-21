@@ -107,7 +107,7 @@ func (w *WorkWechat) GetProviderAccessToken() (*RespGetProviderToken, error) {
 	}
 
 	if resp.respCommon.ErrCode != 0 {
-		return nil, errors.New("获取响应数据失败")
+		return nil, errors.New(resp.respCommon.ErrMsg)
 	}
 	return resp, nil
 }
@@ -137,7 +137,7 @@ func (w *WorkWechat) GetSuiteAccessToken() (*RespGetSuiteToken, error) {
 		return nil, err
 	}
 	if resp.respCommon.ErrCode != 0 {
-		return nil, errors.New("获取响应数据失败")
+		return nil, errors.New(resp.respCommon.ErrMsg)
 	}
 	return resp, nil
 }
@@ -169,7 +169,7 @@ func (w *WorkWechat) GetCorpAccessToken() (*RespGetCorpToken, error) {
 		return nil, err
 	}
 	if resp.respCommon.ErrCode != 0 {
-		return nil, errors.New("获取响应数据失败")
+		return nil, errors.New(resp.respCommon.ErrMsg)
 	}
 	return resp, nil
 }
