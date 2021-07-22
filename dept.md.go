@@ -10,7 +10,7 @@ type DeptInfo struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	NameEn   string `json:"name_en"`
-	ParentId int    `json:"parent_id"`
+	ParentId int    `json:"parentid"`
 	Order    int    `json:"order"`
 }
 
